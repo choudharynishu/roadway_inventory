@@ -1,5 +1,4 @@
 from pydantic_settings import BaseSettings, SettingsConfigDict
-from pydantic import DirectoryPath
 from dataclasses import dataclass
 from pathlib import Path
 from loguru import logger
@@ -16,8 +15,9 @@ class config():
 
 
 class Settings(BaseSettings):
-    project_config = SettingsConfigDict(env_file='/.env',
+    model_config = SettingsConfigDict(env_file='.env',
                                       env_file_encoding='utf-8')
+    api_key: str
     log_filename: str
     log_level: str
 
