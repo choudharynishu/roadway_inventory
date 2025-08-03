@@ -1,6 +1,7 @@
 import os
 import requests
-import logger
+
+from loguru import logger
 from retry import retry
 
 class StreetViewDownloader:
@@ -33,7 +34,7 @@ class StreetViewDownloader:
     def StreetViewImage(self, lat, lon):
         headings = [0, 90, 180, 270]
         try:
-            for heading in headings:
+            for heading in self.config.headings:
                 params = {
                     "size": self.config.size,
                     "location": f"{lat},{lon}",
