@@ -32,7 +32,6 @@ class StreetViewDownloader:
 
     @retry(tries=2, delay=1, backoff=2, exceptions=(requests.exceptions.RequestException,))
     def StreetViewImage(self, lat, lon):
-        headings = [0, 90, 180, 270]
         try:
             for heading in self.config.headings:
                 params = {
@@ -53,3 +52,4 @@ class StreetViewDownloader:
             logger.error(f"Streetview API Bad Request Message: {e}")
         except requests.exceptions.RequestException as e:
             logger.error(f"Streetview API Error at ({lat}, {lon}): {e}")
+

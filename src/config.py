@@ -5,8 +5,8 @@ from loguru import logger
 
 
 @dataclass
-class config():
-    size: int
+class Config():
+    size: str
     fov: int
     headings: list
     pitch: int
@@ -15,9 +15,8 @@ class config():
 
 
 class Settings(BaseSettings):
-    model_config = SettingsConfigDict(env_file='.env',
+    model_config = SettingsConfigDict(env_file='log/.env',
                                       env_file_encoding='utf-8')
-    api_key: str
     log_filename: str
     log_level: str
 
