@@ -5,7 +5,7 @@ from loguru import logger
 
 from src.config import Config
 from src.ImageExtractor import StreetViewDownloader
-
+from src.InputData import download_data
 def main():
     load_dotenv()
     config = Config(
@@ -16,8 +16,11 @@ def main():
         api_key = os.getenv('API_KEY'),
         output_dir = r"data/streetview"
     )
-    downloader = StreetViewDownloader(config)
-    downloader.StreetViewImage(30.407820, -97.715878)
+    #downloader = StreetViewDownloader(config)
+    #downloader.StreetViewImage(30.407820, -97.715878)
+
+    # Download the training, validation, and test data from OpenImages
+    download_data()
 
 
 if __name__ == '__main__':
