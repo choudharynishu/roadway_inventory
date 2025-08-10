@@ -14,12 +14,29 @@ class Config():
     output_dir: Path
 
 
-class Settings(BaseSettings):
+class LogSettings(BaseSettings):
     model_config = SettingsConfigDict(env_file='log/.env',
                                       env_file_encoding='utf-8')
     log_filename: str
     log_level: str
 
-settings = Settings()
-logger.add(settings.log_filename,
-           level=settings.log_level,)
+class ModelSettings(BaseSettings):
+    model_config = SettingsConfigDict(env_file='model/.env.model',
+                                      env_file_encoding='utf-8')
+    model_dir: str
+    model_version: str
+    num_epochs: int
+
+class DataSettings(BaseSettings):
+    model_config = SettingsConfigDict(env_file='data/.env.data',
+                                      env_file_encoding='utf-8')
+    train_dir: str
+    data_yaml: str
+
+logsettings = LogSettings()
+logger.add(logsettings.log_filename,
+           level=logsettings.log_level,)
+
+modelsettings = ModelSettings()
+
+datasettings = DataSettings()

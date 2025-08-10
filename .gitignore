@@ -1,6 +1,7 @@
-.env
 data/
 __pycache__/
+model/
+.env
 *.pyc
 *.pyo
 *.pyd

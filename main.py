@@ -4,8 +4,10 @@ from dotenv import load_dotenv
 from loguru import logger
 
 from src.config import Config
-from src.ImageExtractor import StreetViewDownloader
-from src.InputData import download_data
+from src.InferenceImageExtractor import StreetViewDownloader
+from src.training import train
+from src.processing import preprocessing
+
 def main():
     load_dotenv()
     config = Config(
@@ -18,9 +20,8 @@ def main():
     )
     #downloader = StreetViewDownloader(config)
     #downloader.StreetViewImage(30.407820, -97.715878)
-
-    # Download the training, validation, and test data from OpenImages
-    download_data()
+    preprocessing()
+    #train()
 
 
 if __name__ == '__main__':
