@@ -9,12 +9,18 @@ from src.config import datasettings
 def preprocessing():
     # List of sets for which the preprocessing needs to happen
     sets = ["train", "validation", "test"]
-    for set in sets:
-        add_annotations(set)
-        if set=="train":
-            train_img_dir = os.path.join(datasettings.train_dir, set, f"data")
-        elif set=="validation":
-            val_img_dir = os.path.join(datasettings.train_dir, set, f"data")
+    try:
+        for set in sets:
+            logger.info(f"Processing {set}")
+            add_annotations(set)
+            if set=="train":
+                train_img_dir = os.path.join(datasettings.train_dir,"open-images-v7", set, f"images")
+            elif set=="validation":
+                val_img_dir = os.path.join(datasettings.train_dir,"open-images-v7", set, f"images")
+
+    except Exception as e:
+        logger.error(f"Preprocessing failed: {e}")
+        raise
 
     # Create YOLOv5 Dataset Configuration File
     config_file_path = os.path.join(datasettings.train_dir, f"{datasettings.data_yaml}")
@@ -30,6 +36,7 @@ def preprocessing():
         yaml.dump(config, file)
 
 def add_annotations(set):
+    logger.info(f"Adding annotations for set: {set}")
     # Directory where train, validation, and test sets are stored
     data_dir = datasettings.train_dir
     # File containing information about each image
@@ -56,5 +63,10 @@ def add_annotations(set):
     grouped_df = set_label_df.groupby('ImageID')['yolo_line']
     for image_id, annotations in grouped_df:
         filename = os.path.join(set_label_dir, f"{image_id}.txt")
+        if os.path.exists(filename):
+            logger.info(f"Skipping {filename}, already exists.")
+            continue
         with open(filename, 'w') as f:
+            logger.info(f"Creating {filename}")
             f.write('\n'.join(annotations.values) + '\n')
+    logger.info(f"Completed annotations for set: {set}")
