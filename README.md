@@ -6,4 +6,3 @@ Automated Image Collection: Retrieves four heading images (North, South, East, W
 Traffic Control Detection: Uses a custom-trained YOLOv8 model to detect traffic lights and other control devices
 Batch Processing: Process multiple intersections efficiently
 Comprehensive Results: Provides detection confidence scores and bounding box coordinates
-
