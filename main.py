@@ -35,11 +35,11 @@ def process_inference_data(dataframe, downloader):
             traffic_control_list = [check_image(image_file, model) for image_file in image_filenames]
 
             if any(traffic_control_list):
-                row['traffic_control']='signalized'
+                dataframe.loc[index, 'traffic_control']='signalized'
             else:
-                row['traffic_control']='stop_controlled'
+                dataframe.loc[index, 'traffic_control']='stop_controlled'
         else:
-            row['traffic_control']='streetview_unavailable'
+            dataframe.loc[index, 'traffic_control']='streetview_unavailable'
 
 
 def main():
@@ -54,9 +54,10 @@ def main():
     )
 
     downloader = StreetViewDownloader(config)
-    inference_df = pd.read_excel(os.path.join("data", datasettings.inference_filename), header=0, nrows=100)
+    inference_df = pd.read_excel(os.path.join("data", datasettings.inference_filename), header=0, nrows=50)
 
     process_inference_data(inference_df, downloader)
+    inference_df.to_csv(os.path.join("data", "Inference_results.csv"), index=False)
 
 
 if __name__ == '__main__':
